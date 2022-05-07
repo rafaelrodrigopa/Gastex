@@ -14,7 +14,7 @@ public class Program {
 		System.out.println("\n=== TEST 1: Usuario insert =====");
 		Usuario usuario = new Usuario();
 		
-		usuario.setNome("Rodrigo");
+		usuario.setNome("Rafael");
 		usuario.setProfissao("Analista");
 		
 		usuarioDao.insert(usuario);
