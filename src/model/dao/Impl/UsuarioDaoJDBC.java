@@ -29,11 +29,11 @@ public class UsuarioDaoJDBC implements UsuarioDao{
 		try {
 			
 			st = conn.prepareStatement("INSERT INTO usuario "
-					+ "( Nome, Profissao ) VALUES "
-					+ "(?), (?)", Statement.RETURN_GENERATED_KEYS);
+					+ "(Profissao, Nome) VALUES "
+					+ "(?,?)", Statement.RETURN_GENERATED_KEYS);
 			
-			st.setString(1, usuario.getNome());
-			st.setString(2, usuario.getProfissao());
+			st.setString(1, usuario.getProfissao());
+			st.setString(2, usuario.getNome());
 			
 			int rowsAffected = st.executeUpdate();
 			
