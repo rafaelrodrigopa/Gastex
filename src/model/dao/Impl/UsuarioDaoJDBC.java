@@ -27,6 +27,7 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 		PreparedStatement st = null;
 
 		try {
+<<<<<<< HEAD
 
 			st = conn.prepareStatement("INSERT INTO usuario " + "( Nome, Profissao ) VALUES " + "(?,?)",
 					Statement.RETURN_GENERATED_KEYS);
@@ -34,6 +35,16 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 			st.setString(1, usuario.getNome());
 			st.setString(2, usuario.getProfissao());
 
+=======
+			
+			st = conn.prepareStatement("INSERT INTO usuario "
+					+ "(Profissao, Nome) VALUES "
+					+ "(?,?)", Statement.RETURN_GENERATED_KEYS);
+			
+			st.setString(1, usuario.getProfissao());
+			st.setString(2, usuario.getNome());
+			
+>>>>>>> beb944beeafc23eeeaa9d2f5b2ffa90eca4b52eb
 			int rowsAffected = st.executeUpdate();
 
 			if (rowsAffected > 0) {
