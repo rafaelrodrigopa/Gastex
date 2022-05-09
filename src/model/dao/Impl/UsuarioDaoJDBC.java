@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import db.DB;
@@ -12,64 +13,61 @@ import db.DbException;
 import model.dao.UsuarioDao;
 import model.entities.Usuario;
 
-public class UsuarioDaoJDBC implements UsuarioDao{
-	
+public class UsuarioDaoJDBC implements UsuarioDao {
+
 	private Connection conn;
 
-	
 	public UsuarioDaoJDBC(Connection conn) {
-		this.conn=conn;
+		this.conn = conn;
 	}
-	
+
 	@Override
 	public void insert(Usuario usuario) {
-	
+
 		PreparedStatement st = null;
-		
+
 		try {
-			
-			st = conn.prepareStatement("INSERT INTO usuario "
-					+ "( Nome, Profissao ) VALUES "
-					+ "(?), (?)", Statement.RETURN_GENERATED_KEYS);
-			
+
+			st = conn.prepareStatement("INSERT INTO usuario " + "( Nome, Profissao ) VALUES " + "(?,?)",
+					Statement.RETURN_GENERATED_KEYS);
+
 			st.setString(1, usuario.getNome());
 			st.setString(2, usuario.getProfissao());
-			
+
 			int rowsAffected = st.executeUpdate();
-			
-			if(rowsAffected > 0) {
-				
+
+			if (rowsAffected > 0) {
+
 				ResultSet rs = st.getGeneratedKeys();
-				
-				if(rs.next()) {
+
+				if (rs.next()) {
 					int id = rs.getInt(1);
 					usuario.setId(id);
 				}
-			}else {
+			} else {
 				throw new DbException("Unexpected error! No rows affected!");
 			}
-			
+
 		} catch (SQLException e) {
-			
+
 			throw new DbException(e.getMessage());
-			
+
 		} finally {
-			
+
 			DB.closeStatement(st);
 		}
-		
+
 	}
 
 	@Override
 	public void update(Usuario usuario) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteById(Integer id) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -80,8 +78,31 @@ public class UsuarioDaoJDBC implements UsuarioDao{
 
 	@Override
 	public List<Usuario> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+	
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		
+		try {
+			
+			st = conn.prepareStatement("SELECT * FROM ORDER BY Name");
+			rs = st.executeQuery();
+			
+			List<Usuario> list = new ArrayList();
+			
+			while (rs.next()) {
+				Usuario obj = new Usuario();
+				obj.setId(rs.getInt("Id_Usu"));
+				obj.setNome(rs.getString("Nome"));
+				list.add(obj);
+			}
+			return list;
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 	}
-
 }
