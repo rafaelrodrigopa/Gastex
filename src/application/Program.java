@@ -38,11 +38,15 @@ public class Program {
 //		System.out.println(obj);
 //		
 //		
-		System.out.println("\n=== TEST 4: Usuario update (byName) =====");
-		Usuario usuarioUpdate = usuarioDao.findById(12);
-		usuarioUpdate.setNome("Cecile");
-		usuarioDao.update(usuarioUpdate);
-		System.out.println("Update completed");
+//		System.out.println("\n=== TEST 4: Usuario update (byName) =====");
+//		Usuario usuarioUpdate = usuarioDao.findById(12);
+//		usuarioUpdate.setNome("Cecile");
+//		usuarioDao.update(usuarioUpdate);
+//		System.out.println("Update completed");
+		
+		System.out.println("\n=== TEST 5: Usuario deleteById =====");
+		usuarioDao.deleteById(3);
+		System.out.println("Delete completed");
 		
 		
 	}
