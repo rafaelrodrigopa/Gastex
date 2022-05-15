@@ -61,7 +61,26 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 
 	@Override
 	public void update(Usuario usuario) {
-
+		
+		PreparedStatement st = null;
+		
+		try {
+			
+			st = conn.prepareStatement("UPDATE usuario "
+					+ "SET Nome = ? "
+					+ "WHERE Id_Usuario = ?");
+			
+			st.setString(1, usuario.getNome());
+			st.setInt(2, usuario.getId());
+			
+			st.executeUpdate();
+			
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}finally {
+			DB.closeStatement(st);
+		}
+		
 	}
 
 	@Override
@@ -78,14 +97,14 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 		
 		try {
 			
-			st = conn.prepareStatement("SELECT * FROM usuario WHERE Id = ?");
+			st = conn.prepareStatement("SELECT * FROM usuario WHERE Id_Usuario = ?");
 			st.setInt(1, id);
 			
 			rs = st.executeQuery();
 			
 			if (rs.next()) {
 				Usuario obj = new Usuario();
-				obj.setId(rs.getInt("Id"));
+				obj.setId(rs.getInt("Id_Usuario"));
 				obj.setNome(rs.getString("Nome"));
 				obj.setProfissao(rs.getString("Profissao"));
 				return obj;
@@ -109,15 +128,16 @@ public class UsuarioDaoJDBC implements UsuarioDao {
 		
 		try {
 			
-			st = conn.prepareStatement("SELECT * FROM ORDER BY Name");
+			st = conn.prepareStatement("SELECT * FROM usuario ORDER BY Nome");
 			rs = st.executeQuery();
 			
 			List<Usuario> list = new ArrayList<>();
 			
 			while (rs.next()) {
 				Usuario obj = new Usuario();
-				obj.setId(rs.getInt("Id_Usu"));
+				obj.setId(rs.getInt("Id_Usuario"));
 				obj.setNome(rs.getString("Nome"));
+				obj.setProfissao(rs.getString("Profissao"));
 				list.add(obj);
 			}
 			return list;
