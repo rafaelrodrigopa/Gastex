@@ -1,9 +1,13 @@
 package application;
 
+import java.util.Date;
 import java.util.List;
 
 import model.dao.DaoFactory;
+import model.dao.ReceitaDao;
 import model.dao.UsuarioDao;
+import model.entities.Categoria;
+import model.entities.Receita;
 import model.entities.Usuario;
 
 public class Program {
@@ -12,6 +16,20 @@ public class Program {
 		// TODO Auto-generated method stub
 
 		UsuarioDao usuarioDao = DaoFactory.createUsuarioDao();
+		
+		//Testes implementação Receita
+		ReceitaDao receitaDao = DaoFactory.createReceitaDao();
+		
+		//Criação de usuaio pra teste
+		Usuario usuario = usuarioDao.findById(1);
+		
+		System.out.println("\n Teste 01: Receita insert");
+		Receita receita = new Receita(null, "Compra de Arroz", 18.56, new Date(), new Categoria(1, "Alimentos") ,usuario);
+		
+		receitaDao.insert(receita);
+		
+		//Testes Implementação Usuario
+//		UsuarioDao usuarioDao = DaoFactory.createUsuarioDao();
 //	
 //		System.out.println("\n=== TEST 1: Usuario insert =====");
 //		Usuario usuario = new Usuario();
@@ -44,9 +62,9 @@ public class Program {
 //		usuarioDao.update(usuarioUpdate);
 //		System.out.println("Update completed");
 		
-		System.out.println("\n=== TEST 5: Usuario deleteById =====");
-		usuarioDao.deleteById(3);
-		System.out.println("Delete completed");
+//		System.out.println("\n=== TEST 5: Usuario deleteById =====");
+//		usuarioDao.deleteById(3);
+//		System.out.println("Delete completed");
 		
 		
 	}

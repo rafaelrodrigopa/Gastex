@@ -13,19 +13,31 @@ public class Receita implements Serializable{
 	private Date data;
 	
 	private Categoria categoria;
+	private Usuario usuario;
 	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+
 	public Receita() {
 		// TODO Auto-generated constructor stub
 	}
 
 
-	public Receita(Integer id, String descricao, Double valor, Date data, Categoria categoria) {
+	public Receita(Integer id, String descricao, Double valor, Date data, Categoria categoria, Usuario usuario) {
 		this.id = id;
 		this.descricao = descricao;
 		this.valor = valor;
 		this.data = data;
 		
 		this.categoria=categoria;
+		this.usuario=usuario;
 	}
 
 
