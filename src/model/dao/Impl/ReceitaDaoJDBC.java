@@ -70,13 +70,8 @@ public class ReceitaDaoJDBC implements ReceitaDao {
 
 		try {
 
-			st = conn.prepareStatement("UPDATE receita " 
-					+ "SET Descricao = ?, "
-						+ "Valor = ?, "
-						+ "DataMovimento = ?, "
-						+ "FK_Cat_Rec = ?, "
-						+ "FK_Usu_Rec = ? " 
-						+ "WHERE Id_Rec = ?");
+			st = conn.prepareStatement("UPDATE receita " + "SET Descricao = ?, " + "Valor = ?, " + "DataMovimento = ?, "
+					+ "FK_Cat_Rec = ?, " + "FK_Usu_Rec = ? " + "WHERE Id_Rec = ?");
 
 			st.setString(1, obj.getDescricao());
 			st.setDouble(2, obj.getValor());
@@ -97,7 +92,21 @@ public class ReceitaDaoJDBC implements ReceitaDao {
 
 	@Override
 	public void deleteById(Integer id) {
-		// TODO Auto-generated method stub
+		PreparedStatement st = null;
+
+		try {
+
+			st = conn.prepareStatement("DELETE FROM receita WHERE Id_Rec = ?");
+
+			st.setInt(1, id);
+
+			st.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+		}
 
 	}
 

@@ -39,6 +39,11 @@ public class Program {
 		System.out.println("Update completed");
 		
 		
+		System.out.println("\n Teste 03: Receita deleteById");
+		receitaDao.deleteById(11);
+		
+		System.out.println("Delete completed");
+		
 		
 		//Testes Implementação Usuario
 //		UsuarioDao usuarioDao = DaoFactory.createUsuarioDao();
