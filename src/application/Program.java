@@ -28,6 +28,18 @@ public class Program {
 		
 		receitaDao.insert(receita);
 		
+		
+		System.out.println("\n Teste 02: Receita update");
+		receita.setId(5);
+		receita.setDescricao("Bico");
+		receita.setValor(300.00);
+		receita.setCategoria(new Categoria(7, "Pagamentos"));
+		
+		receitaDao.update(receita);
+		System.out.println("Update completed");
+		
+		
+		
 		//Testes Implementação Usuario
 //		UsuarioDao usuarioDao = DaoFactory.createUsuarioDao();
 //	
