@@ -11,7 +11,9 @@ import java.util.List;
 import db.DB;
 import db.DbException;
 import model.dao.ReceitaDao;
+import model.entities.Categoria;
 import model.entities.Receita;
+import model.entities.Usuario;
 
 public class ReceitaDaoJDBC implements ReceitaDao {
 
@@ -112,8 +114,39 @@ public class ReceitaDaoJDBC implements ReceitaDao {
 
 	@Override
 	public Receita findById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		
+		try {
+			
+			st = conn.prepareStatement("SELECT * FROM receita r "
+					+"INNER JOIN categoria c ON r.FK_Cat_Rec = c.Id_Cat "
+					+"INNER JOIN usuario u ON r.FK_Usu_Rec = u.Id_Usuario "
+					+"WHERE Id_Rec = ?");
+			st.setInt(1, id);
+			
+			rs = st.executeQuery();
+			
+			if (rs.next()) {
+				Receita obj = new Receita();
+				
+				obj.setId(rs.getInt("Id_Rec"));
+				obj.setDescricao(rs.getString("Descricao"));
+				obj.setValor(rs.getDouble("Valor"));
+				obj.setData(rs.getDate("DataMovimento"));
+				obj.setCategoria(new Categoria(rs.getInt("FK_Cat_Rec"), rs.getString("c.Descricao")));
+				obj.setUsuario(new Usuario(rs.getInt("u.Id_Usuario"), rs.getString("u.Nome"), rs.getString("u.Profissao")));
+				
+				return obj;
+			}
+			return null;
+			
+		} catch (Exception e) {
+			throw new DbException(e.getMessage());
+		}finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 	}
 
 	@Override

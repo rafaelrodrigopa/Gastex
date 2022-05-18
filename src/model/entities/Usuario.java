@@ -9,21 +9,16 @@ public class Usuario implements Serializable{
 	private Integer id;
 	private String nome;
 	private String profissao;
-	private Double receita;
-	private Double despesa;
-	
 	
 	public Usuario() {
 		// TODO Auto-generated constructor stub
 	}
 
 
-	public Usuario(int id, String nome, String profissao, Double receita, Double despesa) {
+	public Usuario(int id, String nome, String profissao) {
 		this.id = id;
 		this.nome = nome;
 		this.profissao = profissao;
-		this.receita = receita;
-		this.despesa = despesa;
 	}
 
 
@@ -57,26 +52,6 @@ public class Usuario implements Serializable{
 	}
 
 
-	public Double getReceita() {
-		return receita;
-	}
-
-
-	public void setReceita(Double receita) {
-		this.receita = receita;
-	}
-
-
-	public Double getDespesa() {
-		return despesa;
-	}
-
-
-	public void setDespesa(Double despesa) {
-		this.despesa = despesa;
-	}
-
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -98,18 +73,8 @@ public class Usuario implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", nome=" + nome + ", profissao=" + profissao + ", receita=" + receita
-				+ ", despesa=" + despesa + "]";
+		return "Usuario [id=" + id + ", nome=" + nome + ", profissao=" + profissao + "]";
 	}
 	
-	// Calcula o valor da receita lançada
-	public void calcularReceita(Receita receita) {
-		this.receita += receita.getValor();
-	}
-
-	// Calcula o valor da despesa lançada
-	public void calcularDespesa(Despesa despesa) {
-		this.despesa += despesa.getValor();
-	}
 	
 }

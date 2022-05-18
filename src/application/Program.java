@@ -19,30 +19,36 @@ public class Program {
 		
 		//Testes implementação Receita
 		ReceitaDao receitaDao = DaoFactory.createReceitaDao();
-		
-		//Criação de usuaio pra teste
-		Usuario usuario = usuarioDao.findById(1);
-		
-		System.out.println("\n Teste 01: Receita insert");
-		Receita receita = new Receita(null, "Compra de Arroz", 18.56, new Date(), new Categoria(1, "Alimentos") ,usuario);
-		
-		receitaDao.insert(receita);
-		
-		
-		System.out.println("\n Teste 02: Receita update");
-		receita.setId(5);
-		receita.setDescricao("Bico");
-		receita.setValor(300.00);
-		receita.setCategoria(new Categoria(7, "Pagamentos"));
-		
-		receitaDao.update(receita);
-		System.out.println("Update completed");
-		
-		
-		System.out.println("\n Teste 03: Receita deleteById");
-		receitaDao.deleteById(11);
-		
-		System.out.println("Delete completed");
+//		
+//		//Criação de usuaio pra teste
+//		Usuario usuario = usuarioDao.findById(1);
+//		
+//		System.out.println("\n Teste 01: Receita insert");
+//		Receita receita = new Receita(null, "Compra de Arroz", 18.56, new Date(), new Categoria(1, "Alimentos") ,usuario);
+//		
+//		receitaDao.insert(receita);
+//		
+//		
+//		System.out.println("\n Teste 02: Receita update");
+//		receita.setId(5);
+//		receita.setDescricao("Bico");
+//		receita.setValor(300.00);
+//		receita.setCategoria(new Categoria(7, "Pagamentos"));
+//		
+//		receitaDao.update(receita);
+//		System.out.println("Update completed");
+//		
+//		
+//		System.out.println("\n Teste 03: Receita deleteById");
+//		receitaDao.deleteById(11);
+//		
+//		System.out.println("Delete completed");
+//		
+		System.out.println("\n Teste 04: Receita findById");
+		Receita receita = receitaDao.findById(1);
+		System.out.println(receita);
+		System.out.println(receita.getCategoria());
+		System.out.println(receita.getUsuario());
 		
 		
 		//Testes Implementação Usuario
