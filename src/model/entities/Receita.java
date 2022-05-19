@@ -102,7 +102,7 @@ public class Receita implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Receita [id=" + id + ", descricao=" + descricao + ", valor=" + valor + ", data=" + data + "]";
+		return "Receita [id=" + id + ", descricao=" + descricao + ", valor=" + valor + ", data=" + data + ", usuario="+ usuario +", categoria="+categoria+"]";
 	}
 
 

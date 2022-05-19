@@ -50,6 +50,12 @@ public class Program {
 		System.out.println(receita.getCategoria());
 		System.out.println(receita.getUsuario());
 		
+		System.out.println("\n Teste 05: Receita findAll");
+		List<Receita> receitas = receitaDao.findAll();
+		
+		for(Receita rec : receitas) {
+			System.out.println(rec);
+		}
 		
 		//Testes Implementação Usuario
 //		UsuarioDao usuarioDao = DaoFactory.createUsuarioDao();

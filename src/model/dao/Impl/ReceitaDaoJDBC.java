@@ -6,7 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import db.DB;
 import db.DbException;
@@ -151,8 +154,77 @@ public class ReceitaDaoJDBC implements ReceitaDao {
 
 	@Override
 	public List<Receita> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		
+		try {
+			st = conn.prepareStatement("SELECT * FROM receita r "
+					+"INNER JOIN categoria c ON r.FK_Cat_Rec = c.Id_Cat "
+					+"INNER JOIN usuario u ON r.FK_Usu_Rec = u.Id_Usuario");
+			
+			rs = st.executeQuery();
+			
+			List<Receita> list = new ArrayList<>();
+			Map<Integer, Categoria> mapCat = new HashMap<>();
+			Map<Integer, Usuario> mapUser = new HashMap<>();
+			
+			while (rs.next()) {
+				
+				Categoria cat = mapCat.get(rs.getInt("c.Id_Cat"));
+				Usuario user = mapUser.get(rs.getInt("u.Id_Usuario"));
+				
+				
+				if (cat == null) {
+					cat = instantiateCategoria(rs);
+					mapCat.put(rs.getInt("c.Id_Cat"), cat);
+				}
+				if (user == null) {
+					user = instantiateUsuario(rs);
+					mapUser.put(rs.getInt("u.Id_Usuario"), user);
+				}
+				
+				
+				Receita obj = instantiateReceita(rs, user, cat);
+				list.add(obj);
+			}
+			return list;
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
+	}
+	
+	private Receita instantiateReceita(ResultSet rs, Usuario user, Categoria cat) throws SQLException {
+		Receita obj = new Receita();
+		obj.setId(rs.getInt("Id_Rec"));
+		obj.setDescricao(rs.getString("Descricao"));
+		obj.setValor(rs.getDouble("Valor"));
+		obj.setData(rs.getDate("DataMovimento"));
+		obj.setUsuario(user);
+		obj.setCategoria(cat);
+		
+		return obj;
+	}
+	private Usuario instantiateUsuario(ResultSet rs) throws SQLException {
+		Usuario user = new Usuario();
+		user.setId(rs.getInt("u.Id_Usuario"));
+		user.setNome(rs.getString("u.Nome"));
+		user.setProfissao(rs.getString("u.Profissao"));
+		
+		return user;
+		
+	}
+	private Categoria instantiateCategoria(ResultSet rs) throws SQLException {
+		Categoria categoria = new Categoria();
+		
+		categoria.setId(rs.getInt("c.Id_Cat"));
+		categoria.setDescricao(rs.getString("c.Descricao"));
+		
+		return categoria;
 	}
 
 }
