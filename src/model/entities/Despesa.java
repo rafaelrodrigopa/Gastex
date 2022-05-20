@@ -13,17 +13,27 @@ public class Despesa implements Serializable{
 	private Date data;
 	
 	private Categoria categoria;
+	private Usuario usuario;
 	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
 	public Despesa() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Despesa(Integer id, String descricao, Double valor, Date data, Categoria categoria) {
+	public Despesa(Integer id, String descricao, Double valor, Date data, Categoria categoria, Usuario usuario) {
 		this.id = id;
 		this.descricao = descricao;
 		this.valor = valor;
 		this.data = data;
 		this.setCategoria(categoria);
+		this.usuario=usuario;
 	}
 
 	public Integer getId() {

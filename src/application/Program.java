@@ -4,9 +4,11 @@ import java.util.Date;
 import java.util.List;
 
 import model.dao.DaoFactory;
+import model.dao.DespesaDao;
 import model.dao.ReceitaDao;
 import model.dao.UsuarioDao;
 import model.entities.Categoria;
+import model.entities.Despesa;
 import model.entities.Receita;
 import model.entities.Usuario;
 
@@ -19,7 +21,15 @@ public class Program {
 		
 		//Testes implementação Receita
 		ReceitaDao receitaDao = DaoFactory.createReceitaDao();
-//		
+		
+		//Testes implementação Despesa
+		DespesaDao despesaDao = DaoFactory.createDespesaDao();
+		System.out.println("\n Teste 01: Receita insert");
+		Despesa despesa = new Despesa(null, "Compra de Arroz", 18.56, new Date(), new Categoria(1, "Alimentos") ,new Usuario(1, "Rafael", "Analista"));
+		
+		despesaDao.insert(despesa);
+		
+		
 //		//Criação de usuaio pra teste
 //		Usuario usuario = usuarioDao.findById(1);
 //		
@@ -44,18 +54,21 @@ public class Program {
 //		
 //		System.out.println("Delete completed");
 //		
-		System.out.println("\n Teste 04: Receita findById");
-		Receita receita = receitaDao.findById(1);
-		System.out.println(receita);
-		System.out.println(receita.getCategoria());
-		System.out.println(receita.getUsuario());
+//		System.out.println("\n Teste 04: Receita findById");
+//		Receita receita = receitaDao.findById(1);
+//		System.out.println(receita);
+//		System.out.println(receita.getCategoria());
+//		System.out.println(receita.getUsuario());
+//		
+//		System.out.println("\n Teste 05: Receita findAll");
+//		List<Receita> receitas = receitaDao.findAll();
+//		
+//		for(Receita rec : receitas) {
+//			System.out.println(rec);
+//		}
 		
-		System.out.println("\n Teste 05: Receita findAll");
-		List<Receita> receitas = receitaDao.findAll();
 		
-		for(Receita rec : receitas) {
-			System.out.println(rec);
-		}
+		
 		
 		//Testes Implementação Usuario
 //		UsuarioDao usuarioDao = DaoFactory.createUsuarioDao();
