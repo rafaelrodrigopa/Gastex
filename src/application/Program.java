@@ -29,6 +29,11 @@ public class Program {
 		
 		despesaDao.insert(despesa);
 		
+		despesa.setDescricao("Compra de café");
+		despesa.setValor(6.59);
+		
+		despesaDao.update(despesa);
+		
 		
 //		//Criação de usuaio pra teste
 //		Usuario usuario = usuarioDao.findById(1);

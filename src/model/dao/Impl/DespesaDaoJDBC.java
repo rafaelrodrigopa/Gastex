@@ -28,7 +28,7 @@ public class DespesaDaoJDBC implements DespesaDao {
 		try {
 
 			st = conn.prepareStatement(
-					"INSERT INTO receita "
+					"INSERT INTO despesa "
 							+ "( Descricao, Valor, DataMovimento, FK_Cat_Des, FK_Usu_Des ) VALUES (?,?,?,?,?)",
 					Statement.RETURN_GENERATED_KEYS);
 
@@ -64,7 +64,28 @@ public class DespesaDaoJDBC implements DespesaDao {
 
 	@Override
 	public void update(Despesa obj) {
-		// TODO Auto-generated method stub
+		
+		PreparedStatement st = null;
+
+		try {
+
+			st = conn.prepareStatement("UPDATE despesa " + "SET Descricao = ?, " + "Valor = ?, " + "DataMovimento = ?, "
+					+ "FK_Cat_Des = ?, " + "FK_Usu_Des = ? " + "WHERE Id_Des = ?");
+
+			st.setString(1, obj.getDescricao());
+			st.setDouble(2, obj.getValor());
+			st.setDate(3, new Date(obj.getData().getTime()));
+			st.setInt(4, obj.getCategoria().getId());
+			st.setInt(5, obj.getUsuario().getId());
+			st.setInt(6, obj.getId());
+
+			st.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+		}
 		
 	}
 
