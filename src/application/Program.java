@@ -24,15 +24,20 @@ public class Program {
 		
 		//Testes implementação Despesa
 		DespesaDao despesaDao = DaoFactory.createDespesaDao();
-		System.out.println("\n Teste 01: Receita insert");
-		Despesa despesa = new Despesa(null, "Compra de Arroz", 18.56, new Date(), new Categoria(1, "Alimentos") ,new Usuario(1, "Rafael", "Analista"));
+//		System.out.println("\n Teste 01: Receita insert");
+//		Despesa despesa = new Despesa(null, "Compra de Arroz", 18.56, new Date(), new Categoria(1, "Alimentos") ,new Usuario(1, "Rafael", "Analista"));
+//		
+//		despesaDao.insert(despesa);
+//		
+//		System.out.println("\n Teste 02: Receita update");
+//		despesa.setDescricao("Compra de café");
+//		despesa.setValor(6.59);
+//		
+//		despesaDao.update(despesa);
 		
-		despesaDao.insert(despesa);
-		
-		despesa.setDescricao("Compra de café");
-		despesa.setValor(6.59);
-		
-		despesaDao.update(despesa);
+		System.out.println("\n Teste 03: Receita delete");
+		despesaDao.deleteById(11);
+		despesaDao.deleteById(12);
 		
 		
 //		//Criação de usuaio pra teste
