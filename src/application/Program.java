@@ -1,16 +1,12 @@
 package application;
 
-import java.util.Date;
 import java.util.List;
 
 import model.dao.DaoFactory;
 import model.dao.DespesaDao;
 import model.dao.ReceitaDao;
 import model.dao.UsuarioDao;
-import model.entities.Categoria;
 import model.entities.Despesa;
-import model.entities.Receita;
-import model.entities.Usuario;
 
 public class Program {
 
@@ -42,6 +38,13 @@ public class Program {
 		System.out.println("\n Teste 04: Receita findById");
 		Despesa despesa = despesaDao.findById(10);
 		System.out.println(despesa);
+		
+		System.out.println("\n Teste 05: Receita findByAll");
+		List<Despesa> list = despesaDao.findAll();
+		
+		for(Despesa despesa2 : list) {
+			System.out.println(despesa2);
+		}
 		
 		
 //		//Criação de usuaio pra teste

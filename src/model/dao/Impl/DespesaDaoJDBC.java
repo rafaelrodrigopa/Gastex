@@ -6,14 +6,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import db.DB;
 import db.DbException;
 import model.dao.DespesaDao;
 import model.entities.Categoria;
 import model.entities.Despesa;
-import model.entities.Receita;
 import model.entities.Usuario;
 
 public class DespesaDaoJDBC implements DespesaDao {
@@ -152,9 +154,77 @@ public class DespesaDaoJDBC implements DespesaDao {
 
 	@Override
 	public List<Despesa> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		
+		try {
+			st = conn.prepareStatement("SELECT * FROM despesa d "
+					+"INNER JOIN categoria c ON d.FK_Cat_Des = c.Id_Cat "
+					+"INNER JOIN usuario u ON d.FK_Usu_Des = u.Id_Usuario");
+			
+			rs = st.executeQuery();
+			
+			List<Despesa> list = new ArrayList<>();
+			Map<Integer, Categoria> mapCat = new HashMap<>();
+			Map<Integer, Usuario> mapUser = new HashMap<>();
+			
+			while (rs.next()) {
+				
+				Categoria cat = mapCat.get(rs.getInt("c.Id_Cat"));
+				Usuario user = mapUser.get(rs.getInt("u.Id_Usuario"));
+				
+				
+				if (cat == null) {
+					cat = instantiateCategoria(rs);
+					mapCat.put(rs.getInt("c.Id_Cat"), cat);
+				}
+				if (user == null) {
+					user = instantiateUsuario(rs);
+					mapUser.put(rs.getInt("u.Id_Usuario"), user);
+				}
+				
+				
+				Despesa obj = instantiateReceita(rs, user, cat);
+				list.add(obj);
+			}
+			return list;
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 	}
 
+	private Despesa instantiateReceita(ResultSet rs, Usuario user, Categoria cat) throws SQLException {
+		Despesa obj = new Despesa();
+		obj.setId(rs.getInt("Id_Des"));
+		obj.setDescricao(rs.getString("Descricao"));
+		obj.setValor(rs.getDouble("Valor"));
+		obj.setData(rs.getDate("DataMovimento"));
+		obj.setUsuario(user);
+		obj.setCategoria(cat);
+		
+		return obj;
+	}
+	private Usuario instantiateUsuario(ResultSet rs) throws SQLException {
+		Usuario user = new Usuario();
+		user.setId(rs.getInt("u.Id_Usuario"));
+		user.setNome(rs.getString("u.Nome"));
+		user.setProfissao(rs.getString("u.Profissao"));
+		
+		return user;
+		
+	}
+	private Categoria instantiateCategoria(ResultSet rs) throws SQLException {
+		Categoria categoria = new Categoria();
+		
+		categoria.setId(rs.getInt("c.Id_Cat"));
+		categoria.setDescricao(rs.getString("c.Descricao"));
+		
+		return categoria;
+	}
 	
 }

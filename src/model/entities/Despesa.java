@@ -87,7 +87,7 @@ public class Despesa implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Despesa [id=" + id + ", descricao=" + descricao + ", valor=" + valor + ", data=" + data + "]";
+		return "Despesa [id=" + id + ", descricao=" + descricao + ", valor=" + valor + ", data=" + data + ", Categoria=" + categoria + ", Usuario=" + usuario + "]";
 	}
 
 	public Categoria getCategoria() {
