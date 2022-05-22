@@ -11,7 +11,10 @@ import java.util.List;
 import db.DB;
 import db.DbException;
 import model.dao.DespesaDao;
+import model.entities.Categoria;
 import model.entities.Despesa;
+import model.entities.Receita;
+import model.entities.Usuario;
 
 public class DespesaDaoJDBC implements DespesaDao {
 
@@ -112,8 +115,39 @@ public class DespesaDaoJDBC implements DespesaDao {
 
 	@Override
 	public Despesa findById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		
+		try {
+			
+			st = conn.prepareStatement("SELECT * FROM despesa d "
+					+"INNER JOIN categoria c ON d.FK_Cat_Des = c.Id_Cat "
+					+"INNER JOIN usuario u ON d.FK_Usu_Des = u.Id_Usuario "
+					+"WHERE Id_Des = ?");
+			st.setInt(1, id);
+			
+			rs = st.executeQuery();
+			
+			if (rs.next()) {
+				Despesa obj = new Despesa();
+				
+				obj.setId(rs.getInt("Id_Des"));
+				obj.setDescricao(rs.getString("Descricao"));
+				obj.setValor(rs.getDouble("Valor"));
+				obj.setData(rs.getDate("DataMovimento"));
+				obj.setCategoria(new Categoria(rs.getInt("FK_Cat_Des"), rs.getString("c.Descricao")));
+				obj.setUsuario(new Usuario(rs.getInt("u.Id_Usuario"), rs.getString("u.Nome"), rs.getString("u.Profissao")));
+				
+				return obj;
+			}
+			return null;
+			
+		} catch (Exception e) {
+			throw new DbException(e.getMessage());
+		}finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 	}
 
 	@Override

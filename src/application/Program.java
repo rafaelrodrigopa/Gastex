@@ -35,9 +35,13 @@ public class Program {
 //		
 //		despesaDao.update(despesa);
 		
-		System.out.println("\n Teste 03: Receita delete");
-		despesaDao.deleteById(11);
-		despesaDao.deleteById(12);
+//		System.out.println("\n Teste 03: Receita delete");
+//		despesaDao.deleteById(11);
+//		despesaDao.deleteById(12);
+		
+		System.out.println("\n Teste 04: Receita findById");
+		Despesa despesa = despesaDao.findById(10);
+		System.out.println(despesa);
 		
 		
 //		//Criação de usuaio pra teste
